@@ -1,3 +1,0 @@
-/home/jason/Code/pubsub-project/server/beast-cpp/cmake-build-debug/CMakeFiles/pubsub-server.dir
-/home/jason/Code/pubsub-project/server/beast-cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/jason/Code/pubsub-project/server/beast-cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
