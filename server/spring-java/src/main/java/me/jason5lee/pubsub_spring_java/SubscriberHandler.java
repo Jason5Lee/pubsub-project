@@ -115,14 +115,18 @@ public class SubscriberHandler implements WebSocketHandler {
         private void startTimer() {
             pingFuture = scheduler.scheduleAtFixedRate(() -> {
                 try {
-                    if (session.isOpen()) {
-                        session.sendMessage(new PingMessage());
+                    synchronized (session) {
+                        if (session.isOpen()) {
+                            session.sendMessage(new PingMessage());
+                        }
                     }
                 } catch (IOException ePing) {
                     logger.error("Failed to send ping", ePing);
                     stopConnection();
                     try {
-                        session.close(CloseStatus.SESSION_NOT_RELIABLE);
+                        synchronized (session) {
+                            session.close(CloseStatus.SESSION_NOT_RELIABLE);
+                        }
                     } catch (IOException eClose) {
                         logger.error("Failed to close", eClose);
                     }
@@ -146,7 +150,9 @@ public class SubscriberHandler implements WebSocketHandler {
                         msg = pendingMessageUpdater.getAndSet(this, null);
                         if (msg != null) {
                             try {
-                                session.sendMessage(msg);
+                                synchronized (session) {
+                                    session.sendMessage(msg);
+                                }
                             } catch (IOException e) {
                                 logger.error("Failed to send message", e);
                             }
